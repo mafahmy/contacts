@@ -1,7 +1,7 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import ListContacts from './components/ListContacts';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import ListContacts from "./components/ListContacts";
 
 function App() {
   return (

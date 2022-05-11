@@ -1,16 +1,18 @@
-import React from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Checkbox from '@mui/material/Checkbox';
-import Avatar from '@mui/material/Avatar';
-import { Container } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import React, { useEffect, useState } from "react";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Checkbox from "@mui/material/Checkbox";
+import Avatar from "@mui/material/Avatar";
+import { Container } from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import useGetAllContacts from "../services/api";
 
 export default function ListContacts() {
   const [checked, setChecked] = React.useState([1]);
+  const contacts = useGetAllContacts();
 
   const handleToggle = (value: number) => () => {
     const currentIndex = checked.indexOf(value);
@@ -24,46 +26,49 @@ export default function ListContacts() {
 
     setChecked(newChecked);
   };
+  console.log(contacts);
 
   return (
-      <Container>
-    <List dense sx={{ width: '100%', maxWidth: '100%', bgcolor: 'background.paper' }}>
-      {[0, 1, 2, 3].map((value) => {
-        const labelId = `checkbox-list-secondary-label-${value}`;
-        return (
-          <ListItem
-            key={value}
-            // secondaryAction={
-            //     <Checkbox
-            //     edge="end"
-            //     onChange={handleToggle(value)}
-            //     checked={checked.indexOf(value) !== -1}
-            //     inputProps={{ 'aria-labelledby': labelId }}
-            //   />
-            // }
-            disablePadding
-          >
-            <ListItemButton>
-            <Checkbox
-                // edge="end"
-                onChange={handleToggle(value)}
-                checked={checked.indexOf(value) !== -1}
-                inputProps={{ 'aria-labelledby': labelId }}
-              />
-              <ListItemAvatar>
-                <Avatar
-                  alt={`Avatar n°${value + 1}`}
-                  src={`/static/images/avatar/${value + 1}.jpg`}
-                />
-              </ListItemAvatar>
-              <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
-              <AddCircleIcon color='success'/>
-            </ListItemButton>
-            
-          </ListItem>
-        );
-      })}
-    </List>
+    <Container>
+      <List
+        dense
+        sx={{ width: "100%", maxWidth: "100%", bgcolor: "background.paper" }}
+      >
+        {contacts.status === "loading" && <div>Loading...</div>}
+        {contacts.status === "loaded" &&
+          contacts.payload.contacts.map((contact, index) => {
+            const labelId = `checkbox-list-secondary-label-${contact}`;
+            return (
+              <ListItem
+                key={contact.id}
+                // secondaryAction={
+                //     <Checkbox
+                //     edge="end"
+                //     onChange={handleToggle(value)}
+                //     checked={checked.indexOf(value) !== -1}
+                //     inputProps={{ 'aria-labelledby': labelId }}
+                //   />
+                // }
+                disablePadding
+              >
+                <ListItemButton>
+                  <Checkbox
+                    // edge="end"
+                    onChange={handleToggle(index)}
+                    checked={checked.indexOf(index) !== -1}
+                    inputProps={{ "aria-labelledby": labelId }}
+                  />
+                  <ListItemAvatar>
+                    <Avatar alt={contact.name} src={contact.img?.url} />
+                  </ListItemAvatar>
+
+                  <ListItemText id={labelId} primary={contact.name} />
+                  <AddCircleIcon color="success" />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+      </List>
     </Container>
   );
 }
