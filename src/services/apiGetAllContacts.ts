@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 
 export interface Contacts {
+  totalCount: number;
   contacts: Contact[];
 }
 const useGetAllContacts = () => {
