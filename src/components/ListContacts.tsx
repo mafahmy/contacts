@@ -5,10 +5,12 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Checkbox from "@mui/material/Checkbox";
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 import Avatar from "@mui/material/Avatar";
 import { Container } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import useGetAllContacts from "../services/api";
+import useGetAllContacts from "../services/apiGetAllContacts";
 
 export default function ListContacts() {
   const [checked, setChecked] = React.useState([1]);
@@ -62,7 +64,11 @@ export default function ListContacts() {
                     <Avatar alt={contact.name} src={contact.img?.url} />
                   </ListItemAvatar>
 
-                  <ListItemText id={labelId} primary={contact.name} />
+                  <ListItemText id={labelId} primary={contact.name} secondary={`+ ${contact.phoneNumber}`} />
+                  {contact.tags.map((value,index) => 
+                    <Chip key={index} label={value.name} />
+                  )}
+                  
                   <AddCircleIcon color="success" />
                 </ListItemButton>
               </ListItem>

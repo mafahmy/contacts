@@ -2,6 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import ListContacts from "./components/ListContacts";
+import FilterBox from "./components/FilterBox";
 
 function App() {
   return (
@@ -21,7 +22,10 @@ function App() {
     //     </a>
     //   </header>
     // </div>
+    <div>
     <ListContacts />
+    {/* <FilterBox /> */}
+    </div>
   );
 }
 

@@ -4,6 +4,7 @@ import { Service } from "../types/Service";
 import { Contact } from "../types/Contact";
 import { useEffect, useState } from "react";
 
+
 export interface Contacts {
   contacts: Contact[];
 }
@@ -26,14 +27,3 @@ const useGetAllContacts = () => {
 
 export default useGetAllContacts;
 
-// export const getALLContacts =async () => {
-//     try {
-//         const {data }= await axios.get('https://api-im.chatdaddy.tech/contacts', {
-//        headers: { Authorization: `bearer ${token.access_token}` }
-//    } )
-//    return data;
-//     } catch (error) {
-//         console.log(error);
-//     }
-
-// }

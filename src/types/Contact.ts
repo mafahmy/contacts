@@ -13,7 +13,13 @@ export interface Contact {
     fullUrl: string;
     fetchedAt: string;
   };
-  tags: Array<object>;
+  tags: [
+    {
+      name: string,
+      value: string,
+      remove: boolean
+    }
+  ];
   assigner: string;
   messagesSent: number;
   messagesReceived: number;
