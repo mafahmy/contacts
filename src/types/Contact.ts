@@ -1,3 +1,9 @@
+export enum FetchState {
+  Default= "default",
+  Loading= "loading",
+  Success= "success",
+  Error= "error",
+}
 export interface Contact {
   id: string;
   accountId: string;

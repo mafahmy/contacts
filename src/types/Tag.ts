@@ -1,4 +1,5 @@
 export interface Tag {
+    tags: []
     name: string,
     filters: object,
     validation: {
@@ -6,4 +7,5 @@ export interface Tag {
         format: string,
         enum: Array<string>
     }
+
 }
