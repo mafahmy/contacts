@@ -18,13 +18,16 @@ import Chip from "@mui/material/Chip";
 import Avatar from "@mui/material/Avatar";
 import { Contact } from "../types/Contact";
 import { getAllContacts } from "../services/apiTags";
+interface Props {
+  includeTags: string[];
+}
 
-export default function SearchInput() {
+const SearchInput: React.FC<Props> = ({ includeTags }) => {
   const [checked, setChecked] = React.useState([1]);
   // const contacts = useGetAllContacts();
 
   const [contacts, setContacts] = useState<Array<Contact>>([]);
-  const [tags, setTags] = useState<Array<string>>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [notTags, setNotTags] = useState<Array<string>>([]);
   const [minMessagesSent, setMinMessagesSent] = useState<number>();
   const [minMessagesRecv, setMinMessagesRecv] = useState<number>();
@@ -35,6 +38,8 @@ export default function SearchInput() {
 
   useEffect(() => {
     // fetchContacts();
+    setTags(includeTags);
+    console.log(tags);
     const fetchContacts = async () => {
       await getAllContacts(
         tags,
@@ -61,6 +66,7 @@ export default function SearchInput() {
     minMessagesSent,
     notTags,
     q,
+    includeTags,
     tags,
   ]);
   const handleToggle = (value: number) => () => {
@@ -117,7 +123,7 @@ export default function SearchInput() {
   //   };
 
   return (
-    <Container>
+    <Container sx={{}}>
       <Paper
         component="form"
         sx={{
@@ -134,7 +140,7 @@ export default function SearchInput() {
           <MenuIcon />
         </IconButton>
         <InputBase
-          sx={{ ml: 1, flex: 1 }}
+          sx={{}}
           placeholder="Search Contacts"
           // inputProps={{ 'aria-label': 'search google maps' }}
           value={q}
@@ -212,4 +218,5 @@ export default function SearchInput() {
       </Container>
     </Container>
   );
-}
+};
+export default SearchInput;

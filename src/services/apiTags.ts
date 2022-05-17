@@ -1,11 +1,12 @@
 import axios from "axios";
 import { token } from "./generateToken";
-
+import qs from "qs"
 import { Tag } from "../types/Tag";
 import { useEffect, useState } from "react";
 
 const api = "https://api-im.chatdaddy.tech";
 const headers = {
+  'Content-Type': 'application/json',
   Authorization: `bearer ${token.access_token}`,
 };
 
@@ -21,7 +22,7 @@ export const getAllTags = async () => {
 };
 
 export const getAllContacts = async (
-  tags?: string[],
+  tags: Array<string>,
   notTags?: string[],
   minMessagesSent?: number,
   minMessagesRecv?: number,
@@ -39,6 +40,9 @@ export const getAllContacts = async (
         maxMessagesSent: maxMessagesSent,
         maxMessagesRecv: maxMessagesRecv,
         q: q,
+      },
+      paramsSerializer: (params) => {
+        return qs.stringify(params, { arrayFormat: 'repeat' })
       },
 
       headers,

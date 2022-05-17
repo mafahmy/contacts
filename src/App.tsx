@@ -27,7 +27,7 @@ function App() {
 
     <Container sx={{ display: "flex", border: "2px solid gray" }}>
       <FilterBox />
-      <SearchInput />
+      {/* <SearchInput /> */}
     </Container>
   );
 }
