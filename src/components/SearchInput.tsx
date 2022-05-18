@@ -20,25 +20,38 @@ import { Contact } from "../types/Contact";
 import { getAllContacts } from "../services/apiTags";
 interface Props {
   includeTags: string[];
+  excludeTags: string[];
+  minMessagesSent: string;
+  maxMessagesSent: string;
+  minMessagesRecv: string;
+  maxMessagesRecv: string;
 }
 
-const SearchInput: React.FC<Props> = ({ includeTags }) => {
+const SearchInput: React.FC<Props> = ({
+  includeTags,
+  excludeTags,
+  minMessagesSent,
+  maxMessagesSent,
+  minMessagesRecv,
+  maxMessagesRecv,
+}) => {
   const [checked, setChecked] = React.useState([1]);
   // const contacts = useGetAllContacts();
 
   const [contacts, setContacts] = useState<Array<Contact>>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [notTags, setNotTags] = useState<Array<string>>([]);
-  const [minMessagesSent, setMinMessagesSent] = useState<number>();
-  const [minMessagesRecv, setMinMessagesRecv] = useState<number>();
-  const [maxMessagesSent, setMaxMessagesSent] = useState<number>();
-  const [maxMessagesRecv, setMaxMessagesRecv] = useState<number>();
+  // const [minMessagesSent, setMinMessagesSent] = useState<number>();
+  // const [minMessagesRecv, setMinMessagesRecv] = useState<number>();
+  // const [maxMessagesSent, setMaxMessagesSent] = useState<number>();
+  // const [maxMessagesRecv, setMaxMessagesRecv] = useState<number>();
   const [q, setQ] = useState<string>("");
   const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     // fetchContacts();
     setTags(includeTags);
+    setNotTags(excludeTags);
     console.log(tags);
     const fetchContacts = async () => {
       await getAllContacts(
@@ -68,6 +81,7 @@ const SearchInput: React.FC<Props> = ({ includeTags }) => {
     q,
     includeTags,
     tags,
+    excludeTags,
   ]);
   const handleToggle = (value: number) => () => {
     const currentIndex = checked.indexOf(value);
@@ -140,7 +154,7 @@ const SearchInput: React.FC<Props> = ({ includeTags }) => {
           <MenuIcon />
         </IconButton>
         <InputBase
-          sx={{}}
+          sx={{ width: "100%" }}
           placeholder="Search Contacts"
           // inputProps={{ 'aria-label': 'search google maps' }}
           value={q}

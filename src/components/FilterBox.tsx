@@ -18,6 +18,7 @@ import {
   OutlinedInput,
   Select,
   SelectChangeEvent,
+  TextField,
   Typography,
 } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
@@ -45,12 +46,29 @@ function getStyles(name: string, includeTags: readonly string[], theme: Theme) {
         : theme.typography.fontWeightMedium,
   };
 }
+function getStylesEx(
+  name: string,
+  excludeTags: readonly string[],
+  theme: Theme
+) {
+  return {
+    fontWeight:
+      excludeTags.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
 
 const FilterBox: React.FC = () => {
   const [checked, setChecked] = React.useState([0]);
   const [success, setSucess] = useState<Boolean>(false);
   const [tags, setTags] = useState<Array<Tag>>([]);
   const [includeTags, setIncludeTags] = useState<string[]>([]);
+  const [excludeTags, setExcludeTags] = useState<string[]>([]);
+  const [minMessagesSent, setMinMessagesSent] = useState("");
+  const [maxMessagesSent, setMaxMessagesSent] = useState("");
+  const [minMessagesRecv, setMinMessagesRecv] = useState("");
+  const [maxMessagesRecv, setMaxMessagesRecv] = useState("");
   const [strings, setString] = useState("");
   const theme = useTheme();
 
@@ -87,12 +105,21 @@ const FilterBox: React.FC = () => {
     } = event;
     setIncludeTags(typeof value === "string" ? value.split(" ") : value);
   };
+  const handleChangeExTags = (event: SelectChangeEvent<typeof excludeTags>) => {
+    const {
+      target: { value },
+    } = event;
+    setExcludeTags(typeof value === "string" ? value.split(" ") : value);
+  };
   console.log(tags);
   console.log(includeTags);
 
   return (
-    <Container disableGutters sx={{ display: "flex", justifyContent: "space-between" }}>
-      <Container  sx={{ flex: 1, width: "100%" }}>
+    <Container
+      disableGutters
+      sx={{ display: "flex", justifyContent: "space-between" }}
+    >
+      <Container sx={{ flex: 1, width: "100%", position: "sticky" }}>
         <Box
           sx={{
             width: "200px",
@@ -149,7 +176,75 @@ const FilterBox: React.FC = () => {
             justifyContent: "space-between",
           }}
         >
-          <Typography>Exclude Tags:</Typography>
+          <div>
+            <Typography>Exclude Tags:</Typography>
+            <FormControl sx={{ m: 2, width: 200, height: 300 }}>
+              <InputLabel id="demo-multiple-chip-label">Tags:</InputLabel>
+              <Select
+                labelId="demo-multiple-chip-label"
+                id="demo-multiple-chip"
+                multiple
+                value={excludeTags}
+                onChange={handleChangeExTags}
+                input={<OutlinedInput id="select-multiple-chip" label="chip" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={MenuProps}
+              >
+                {tags.map((tag) => (
+                  <MenuItem
+                    key={tag.name}
+                    value={tag.name}
+                    style={getStylesEx(tag.name, excludeTags, theme)}
+                  >
+                    {tag.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+        </Box>
+        <Box
+          sx={{
+            width: "200px",
+            marginBottom: "50px",
+            backgroundColor: "white",
+            borderColor: "rgba(0, 0, 0, 0.1)",
+            borderWidth: "1px",
+            // display: "flex",
+            // justifyContent: "space-between",
+          }}
+        >
+          <Typography>messages Sent:</Typography>
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "15ch" },
+              display: "flex",
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <TextField
+              id="outlined-basic"
+              label="min"
+              variant="outlined"
+              value={minMessagesSent}
+              onChange={(e) => setMinMessagesSent(e.target.value)}
+            />
+            <TextField
+              id="filled-basic"
+              label="max"
+              variant="outlined"
+              value={maxMessagesSent}
+              onChange={(e) => setMaxMessagesSent(e.target.value)}
+            />
+          </Box>
         </Box>
         <Box
           sx={{
@@ -158,14 +253,45 @@ const FilterBox: React.FC = () => {
             backgroundColor: "white",
             borderColor: "rgba(0, 0, 0, 0.1)",
             borderWidth: "1px",
-            display: "flex",
-            justifyContent: "space-between",
+            // display: "flex",
+            // justifyContent: "space-between",
           }}
         >
-          Messages
+          <Typography>messages Recieved:</Typography>
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "15ch" },
+              display: "flex",
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <TextField
+              id="outlined-basic"
+              label="min"
+              variant="outlined"
+              value={minMessagesRecv}
+              onChange={(e) => setMinMessagesRecv(e.target.value)}
+            />
+            <TextField
+              id="filled-basic"
+              label="max"
+              variant="outlined"
+              value={maxMessagesRecv}
+              onChange={(e) => setMaxMessagesRecv(e.target.value)}
+            />
+          </Box>
         </Box>
       </Container>
-      <SearchInput includeTags={includeTags}/>
+      <SearchInput
+        includeTags={includeTags}
+        excludeTags={excludeTags}
+        minMessagesSent={minMessagesSent}
+        maxMessagesSent={maxMessagesSent}
+        minMessagesRecv={minMessagesRecv}
+        maxMessagesRecv={maxMessagesRecv}
+      />
     </Container>
   );
 };
