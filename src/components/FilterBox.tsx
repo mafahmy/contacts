@@ -27,7 +27,7 @@ import { getAllTags } from "../services/apiTags";
 import { getRegisteredStyles } from "@emotion/utils";
 import SearchInput from "./SearchInput";
 
-const ITEM_HEIGHT = 48;
+const ITEM_HEIGHT = 30;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
   PaperProps: {
@@ -119,7 +119,9 @@ const FilterBox: React.FC = () => {
       disableGutters
       sx={{ display: "flex", justifyContent: "space-between" }}
     >
-      <Container sx={{ flex: 1, width: "100%", position: "sticky" }}>
+      
+      <Container sx={{ flex: 1, width: "100%", marginTop:"75px"}}>
+        <Container sx={{ }}>
         <Box
           sx={{
             width: "200px",
@@ -132,8 +134,9 @@ const FilterBox: React.FC = () => {
           }}
         >
           <div>
-            <Typography>Include Tags :</Typography>
-            <FormControl sx={{ m: 2, width: 200, height: 300 }}>
+            <Typography 
+            sx={{  }}>Include Tags</Typography> 
+            <FormControl sx={{ m: 2, width: 200, height: 200 }}>
               <InputLabel id="demo-multiple-chip-label">Tags:</InputLabel>
               <Select
                 labelId="demo-multiple-chip-label"
@@ -178,7 +181,7 @@ const FilterBox: React.FC = () => {
         >
           <div>
             <Typography>Exclude Tags:</Typography>
-            <FormControl sx={{ m: 2, width: 200, height: 300 }}>
+            <FormControl sx={{ m: 2, width: 200, height: 200 }}>
               <InputLabel id="demo-multiple-chip-label">Tags:</InputLabel>
               <Select
                 labelId="demo-multiple-chip-label"
@@ -241,6 +244,7 @@ const FilterBox: React.FC = () => {
               id="filled-basic"
               label="max"
               variant="outlined"
+              inputProps={{ inputMode: 'numeric', pattern: '[0-1000]*' }}
               value={maxMessagesSent}
               onChange={(e) => setMaxMessagesSent(e.target.value)}
             />
@@ -283,6 +287,7 @@ const FilterBox: React.FC = () => {
             />
           </Box>
         </Box>
+        </Container>
       </Container>
       <SearchInput
         includeTags={includeTags}

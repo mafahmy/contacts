@@ -168,7 +168,7 @@ const SearchInput: React.FC<Props> = ({
           {/* <DirectionsIcon /> */}
         </IconButton>
       </Paper>
-      <Container sx={{ flex: 2, width: "100%", border: "2px solid blue" }}>
+      <Container sx={{ flex: 2, width: "100%", backgroundColor: "lightgray" }}>
         {/* {contacts.status === "loaded" && (
           <Typography variant="h5" sx={{ flexGrow: 1, fontWeight: 700 }}>
             {`All Contacts (${contacts.payload.contacts.length})`}
