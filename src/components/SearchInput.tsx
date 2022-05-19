@@ -10,7 +10,7 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import DirectionsIcon from "@mui/icons-material/Directions";
+
 import { Container, Typography } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Checkbox from "@mui/material/Checkbox";
@@ -36,7 +36,6 @@ const SearchInput: React.FC<Props> = ({
   maxMessagesRecv,
 }) => {
   const [checked, setChecked] = React.useState([1]);
-  // const contacts = useGetAllContacts();
 
   const [contacts, setContacts] = useState<Array<Contact>>([]);
   const [tags, setTags] = useState<string[]>([]);
@@ -49,7 +48,6 @@ const SearchInput: React.FC<Props> = ({
   const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
-    // fetchContacts();
     setTags(includeTags);
     setNotTags(excludeTags);
     console.log(tags);
@@ -96,46 +94,6 @@ const SearchInput: React.FC<Props> = ({
     setChecked(newChecked);
   };
 
-  const [contactName, setContactName] = useState("");
-
-  const fetchContacts = async () => {
-    await getAllContacts(
-      tags,
-      notTags,
-      minMessagesSent,
-      minMessagesRecv,
-      maxMessagesSent,
-      maxMessagesRecv,
-      q
-    )
-      .then((response: any) => {
-        setContacts(response.data.contacts);
-        setSuccess(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  //   const [searchedContacts, setSearchedContacts]: any = useState(contacts);
-
-  //   const filter = (e: any) => {
-  //     const keyword = e.target.value;
-  //     if (contacts.status === "loaded") {
-  //       if (keyword !== "") {
-  //         const results: any = contacts.payload.contacts.filter((contact) => {
-  //          return contact.name.startsWith(keyword);
-  //         });
-  //         setSearchedContacts(results);
-  //         console.log(searchedContacts);
-  //       } else {
-  //         setSearchedContacts(contacts.payload.contacts);
-  //       }
-  //       setContactName(keyword);
-  //       console.log(keyword);
-  //     }
-  //   };
-
   return (
     <Container sx={{}}>
       <Paper
@@ -169,35 +127,15 @@ const SearchInput: React.FC<Props> = ({
         </IconButton>
       </Paper>
       <Container sx={{ flex: 2, width: "100%", backgroundColor: "lightgray" }}>
-        {/* {contacts.status === "loaded" && (
-          <Typography variant="h5" sx={{ flexGrow: 1, fontWeight: 700 }}>
-            {`All Contacts (${contacts.payload.contacts.length})`}
-          </Typography>
-        )} */}
-
         <List
           dense
           sx={{ width: "100%", maxWidth: "100%", bgcolor: "background.paper" }}
         >
-          {/* {contacts.status === "loading" && <div>Loading...</div>} */}
           {success &&
             contacts.map((contact: Contact, index: number) => {
-              // const labelId = `checkbox-list-secondary-label-${contact}`;
-
               return (
                 <div>
-                  <ListItem
-                    key={contact.id}
-                    // secondaryAction={
-                    //     <Checkbox
-                    //     edge="end"
-                    //     onChange={handleToggle(value)}
-                    //     checked={checked.indexOf(value) !== -1}
-                    //     inputProps={{ 'aria-labelledby': labelId }}
-                    //   />
-                    // }
-                    disablePadding
-                  >
+                  <ListItem key={contact.id} disablePadding>
                     <ListItemButton>
                       <Checkbox
                         // edge="end"
